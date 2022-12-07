@@ -8,7 +8,6 @@ export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   };
@@ -28,56 +27,52 @@ export default function Signin() {
     <Container maxWidth="sm">
       <Typography variant="h6" align="center"> Đăng nhập</Typography>
       <Box sx={{ '& > :not(style)': { m: 1 } }}>
-        {/* 
-        grid-- container spacing={0}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          style={{ minHeight: '100vh' }}
-        box-- display="flex" alignItems="center" justifyContent="center"
-        grid first --
-                
-*/}
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <FormControl variant="standard">
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Phone number:
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              placeholder="Please enter phone enter"
-              startAdornment={
-                <InputAdornment position="start">
-                  <PhoneAndroidIcon />
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <FormControl variant="standard">
+              <InputLabel htmlFor="input-with-icon-adornment">
+                Phone number:
+              </InputLabel>
+              <Input
+                id="input-with-icon-adornment"
+                placeholder="Please enter phone enter"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <PhoneAndroidIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <FormControl variant="standard">
+              <InputLabel htmlFor="input-with-icon-adornment">
+                Password:
+              </InputLabel>
+              <Input
+                id="input-with-icon-adornment"
+                placeholder="Please enter password"
+                type={showPassword === true ? "text" : "password"}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <KeyIcon />
+                  </InputAdornment>
+                }
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClickShowPassword}>
+                      {showPassword === true ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+
         </Grid >
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <FormControl variant="standard">
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Password:
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              placeholder="Please enter password"
-              type={showPassword === true ? "text" : "password"}
-              startAdornment={
-                <InputAdornment position="start">
-                  <KeyIcon />
-                </InputAdornment>
-              }
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={handleClickShowPassword}>
-                    {showPassword === true ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+
         </Grid>
 
       </Box >
