@@ -1,12 +1,13 @@
-import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper } from "@mui/material";
+import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper, Divider } from "@mui/material";
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { styled } from '@mui/material/styles';
 import KeyIcon from '@mui/icons-material/Key';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import React, { useState } from "react";
-import FacebookIcon from '@mui/icons-material/Facebook';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
+import SvgIcon from '@mui/material/SvgIcon';
 export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -33,28 +34,39 @@ export default function Signin() {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
+  const myComponentStyle = {
+    height: 30,
+    paddingTop: 10,
+    backgroundColor: "green",
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  }
   return (
     <Container component="main" maxWidth="xs" >
       {/* Sign in */}
-      <Typography component="h1" variant="h5" align="center"> Đăng nhập</Typography>
       <Box sx={{
-        marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center',
+        marginTop: 1, display: 'flex', flexDirection: 'column', alignItems: 'center'
       }}
       >
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} style={{ backgroundColor: '#2e3030', color: 'white' }} >
+
+          <Grid item xs={12} style={{ textAlign: 'center' }} >
+            <Typography component="h1" variant="h5" align="center"> Đăng nhập</Typography>
+          </Grid>
 
           {/* Phone Number */}
           <Grid item xs={12} style={{ textAlign: 'center' }} >
             <FormControl variant="standard" margin="normal" fullWidth>
-              <InputLabel htmlFor="input-with-icon-adornment">
+              <InputLabel htmlFor="input-with-icon-adornment" style={{ color: 'white' }}>
                 Phone number:
               </InputLabel>
               <Input
                 id="input-with-icon-adornment"
                 placeholder="Please enter phone enter"
                 startAdornment={
-                  <InputAdornment position="start">
-                    <PhoneAndroidIcon />
+                  <InputAdornment position="start" >
+                    <PhoneAndroidIcon style={{ color: 'white' }} />
                   </InputAdornment>
                 }
               />
@@ -65,7 +77,7 @@ export default function Signin() {
           {/* Password */}
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <FormControl variant="standard" margin="normal" fullWidth>
-              <InputLabel htmlFor="input-with-icon-adornment">
+              <InputLabel htmlFor="input-with-icon-adornment" style={{ color: 'white' }}>
                 Password:
               </InputLabel>
               <Input
@@ -74,7 +86,7 @@ export default function Signin() {
                 type={showPassword === true ? "text" : "password"}
                 startAdornment={
                   <InputAdornment position="start">
-                    <KeyIcon />
+                    <KeyIcon style={{ color: 'white' }} />
                   </InputAdornment>
                 }
                 endAdornment={
@@ -90,39 +102,47 @@ export default function Signin() {
 
 
           {/* Forgot password */}
-          <Grid container>
+          <Grid item xs={12}>
             <Grid item xs>
-              <Link href="#" variant="body2"> Quên mật khẩu? </Link>
+              <Link href="#" variant="body2" style={{ color: 'white' }}> Quên mật khẩu? </Link>
             </Grid>
           </Grid>
 
 
           {/* Button sign in */}
           <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} style={{ backgroundColor: 'white' }} >
               Đăng nhập
             </Button>
           </Grid>
 
-          <div>hoặc</div>
+
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'center', borderColor: 'white' }}>
+              <Divider style={{ color: 'white' }}>hoặc</Divider>
+            </div>
+          </Grid>
 
           {/* Sing in with Facebook or Google */}
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <Grid container spacing={2}>
               <Grid item xs={6} md={6}>
-                <Button type="submit" fullWidth variant="contained"><FacebookIcon />Facebook</Button>
+                <Button type="submit" fullWidth variant="outlined" style={{ color: 'white' }} href="#as-link"><FacebookOutlinedIcon style={{ color: '#0543ad' }} />Facebook </Button>
               </Grid>
               <Grid item xs={6} md={6}>
-                <Button type="submit" fullWidth variant="contained"><GoogleIcon />Google</Button>
+                <Button type="submit" fullWidth variant="outlined" style={{ color: 'white' }} href="#as-link" ><GoogleIcon style={{ color: 'red' }} />Google</Button>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} style={{ textAlign: 'center' }} >
 
+
+          {/* Horizonal */}
+          <Grid item xs={12} style={{ textAlign: 'center' }} >
+            <Divider style={{ borderColor: 'White' }} />
           </Grid>
 
           <Grid item xs={12} style={{ textAlign: 'center' }}>
-            Bạn chưa có tài khoản? <Link href="#" variant="body2">Đăng ký ngay.</Link>
+            Bạn chưa có tài khoản? <Link href="#" variant="body2" style={{ color: 'white' }}>Đăng ký ngay.</Link>
           </Grid>
         </Grid >
 
