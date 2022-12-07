@@ -1,9 +1,12 @@
-import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography } from "@mui/material";
+import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper } from "@mui/material";
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import { styled } from '@mui/material/styles';
 import KeyIcon from '@mui/icons-material/Key';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import React, { useState } from "react";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
 export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,13 +26,26 @@ export default function Signin() {
   //     'password', password
   //   )
   // }
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h6" align="center"> Đăng nhập</Typography>
-      <Box sx={{ '& > :not(style)': { m: 1 } }}>
+    <Container component="main" maxWidth="xs" >
+      {/* Sign in */}
+      <Typography component="h1" variant="h5" align="center"> Đăng nhập</Typography>
+      <Box sx={{
+        marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center',
+      }}
+      >
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <FormControl variant="standard">
+
+          {/* Phone Number */}
+          <Grid item xs={12} style={{ textAlign: 'center' }} >
+            <FormControl variant="standard" margin="normal" fullWidth>
               <InputLabel htmlFor="input-with-icon-adornment">
                 Phone number:
               </InputLabel>
@@ -44,8 +60,11 @@ export default function Signin() {
               />
             </FormControl>
           </Grid>
+
+
+          {/* Password */}
           <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <FormControl variant="standard">
+            <FormControl variant="standard" margin="normal" fullWidth>
               <InputLabel htmlFor="input-with-icon-adornment">
                 Password:
               </InputLabel>
@@ -69,7 +88,44 @@ export default function Signin() {
             </FormControl>
           </Grid>
 
+
+          {/* Forgot password */}
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2"> Quên mật khẩu? </Link>
+            </Grid>
+          </Grid>
+
+
+          {/* Button sign in */}
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >
+              Đăng nhập
+            </Button>
+          </Grid>
+
+          <div>hoặc</div>
+
+          {/* Sing in with Facebook or Google */}
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <Grid container spacing={2}>
+              <Grid item xs={6} md={6}>
+                <Button type="submit" fullWidth variant="contained"><FacebookIcon />Facebook</Button>
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <Button type="submit" fullWidth variant="contained"><GoogleIcon />Google</Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} style={{ textAlign: 'center' }} >
+
+          </Grid>
+
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            Bạn chưa có tài khoản? <Link href="#" variant="body2">Đăng ký ngay.</Link>
+          </Grid>
         </Grid >
+
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 
