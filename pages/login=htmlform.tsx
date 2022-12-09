@@ -44,7 +44,6 @@ export default function Signin() {
                                                 <PhoneAndroidIcon />
                                             </InputAdornment>
                                         }
-                                        onChange={(event) => setUsername(event.target.value)}
 
                                     />
                                 </FormControl>
@@ -74,7 +73,6 @@ export default function Signin() {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        onChange={(event) => setPassword(event.target.value)}
                                     />
                                 </FormControl>
                             </Grid>
@@ -90,7 +88,7 @@ export default function Signin() {
 
                             {/* Button sign in */}
                             <Grid item xs={12} style={{ textAlign: 'center' }}>
-                                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={() => handleSubmit()}>
+                                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >
                                     Đăng nhập
                                 </Button>
                             </Grid>
