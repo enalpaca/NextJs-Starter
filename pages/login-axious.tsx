@@ -7,7 +7,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import React, { useState } from "react";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
-import SvgIcon from '@mui/material/SvgIcon';
 export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,14 +14,6 @@ export default function Signin() {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   };
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     phone: data.get('phone'),
-  //     password: data.get('password'),
-  //   })
-  // };
 
   function handleSubmit(): void {
     // throw new Error("Function not implemented.");
@@ -59,51 +50,14 @@ export default function Signin() {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-      }
-      }
-      >
+      }} >
         <Container component="main" maxWidth="xs">
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+          <Box component="form" >
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
 
               <Grid item xs={12} style={{ textAlign: 'center' }} sx={{ m: 1 }}>
                 <Typography component="h1" variant="h4" align="center"> Đăng nhập</Typography>
               </Grid>
-
-
-
-              {/* <Grid item xs={12} style={{ textAlign: 'center' }} >
-                <FormControl variant="standard" margin="normal" fullWidth >
-                  <TextField
-                    label="Please enter OTP"
-                    placeholder="OTP"
-                    type="tel"
-                    helperText="OTP incorect"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PhoneAndroidIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-
-                    
-                  // startAdornment={
-                  //   <InputAdornment position="start" >
-                  //     <PhoneAndroidIcon />
-                  //   </InputAdornment>
-                  // }
-
-                  // sx={{
-                  //   "& fieldset": { borderTop: 'none', borderRight: 'none', borderLeft: 'none' },
-                  // }}
-                  />
-                </FormControl>
-              </Grid> */}
-
-
-
-
               {/* Phone Number */}
               <Grid item xs={12} style={{ textAlign: 'center' }} >
                 <FormControl variant="standard" margin="normal" fullWidth >
@@ -208,97 +162,5 @@ export default function Signin() {
 
       </Box >
     </>
-    // <Container component="main" maxWidth="xs" >
-    //   {/* Sign in */}
-
-
-    // </Container >
   );
-  // <div>
-  //   <div className="alert alert-primary" role="alert">
-  //     A simple primary alert—check it out!
-  //   </div>
-  //   <form onSubmit={(e) => handleSubmit(e)} action="/api/sendatalogin" method="get">
-  //     <h1 className="h3 mb-3 fw-normal">Đăng nhập</h1>
-  //     <label htmlFor="username"> Username </label>
-  //     <hr />
-  //     <input
-  //       type="text"
-  //       name="username"
-  //       id="username"
-  //       onChange={(e) => setUsername(e.target.value)}
-  //     />
-
-  //     <hr />
-  //     <label htmlFor="password"> Password</label>
-  //     <hr />
-  //     <input
-  //       type="text"
-  //       name="password"
-  //       id="password"
-  //       onChange={(e) => setPassword(e.target.value)}
-  //     />
-
-  //     <hr />
-  //     <button type="submit"> Log in </button>
-  //   </form>
-  // </div>
-  // <div className="container">
-  //   <div className="row">
-  //     <div className="col-3"></div>
-  //     <div className="col-6">
-  //       <h2>Đăng Nhập</h2>
-  //       <form action="#">
-  //         {/* So dien thoai */}
-  //         <div>
-  //           iconphone
-  //         </div>
-  //         <div>
-  //           <label htmlFor="#">Số điện thoại</label>
-  //           <input type="text" />
-  //         </div>
-
-  //         {/* Nhap mat khau */}
-  //         <div>
-  //           <div>
-  //             iconkey
-  //           </div>
-  //           <div>
-  //             <label htmlFor="#">Mật khẩu</label>
-  //             <input type="password" />
-  //             iconeye-to-hidden-or-show-password
-  //           </div>
-  //         </div>
-
-  //         <h5>Quên mật khẩu?</h5>
-
-  //         <button> Đăng nhập </button>
-
-  //         <span>hoặc</span>
-
-  //         <div>
-  //           iconfacebook-
-  //           <span>Facebook</span>
-  //           icongoogle-
-  //           <span>Google</span>
-  //         </div>
-  //       </form>
-
-  //       <hr />
-
-  //       <p> Bạn chưa có tài khoản?<a href="#">Đăng ký ngay</a></p>
-  //     </div>
-  //     <div className="col-3"></div>
-  //   </div>
-  // </div >
-
 }
-
-// function handleGetUser(): void {
-//   throw new Error("Function not implemented.");
-// }
-
-// function handleLogOut(): void {
-//   throw new Error("Function not implemented.");
-// }
-
