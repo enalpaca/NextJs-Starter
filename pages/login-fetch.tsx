@@ -1,4 +1,4 @@
-import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper, Divider, } from "@mui/material";
+import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper, Divider, Modal, } from "@mui/material";
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { styled } from '@mui/material/styles';
 import KeyIcon from '@mui/icons-material/Key';
@@ -7,6 +7,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import React, { useState } from "react";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
+import { error } from "console";
+import style from "styled-jsx/style";
 export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +28,50 @@ export default function Signin() {
     console.log(
       'password', password
     )
+    // const res = await fetch('https://.../data')
+
+
+    const res = fetch('http://localhost:3000/api/sendatalogin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(
+        {
+          username, //key=value
+          password
+        }
+      )
+    }).then((response) => response.json()).then((res) => {//res= lấy về data, 
+      console.log(
+        'res', res
+      )
+
+      if (res.message === 'Fail') {
+        alert("Login fail!")
+      }
+      else {
+        alert("Say hello" + " " + res.currentUser.firstname + " " + res.currentUser.lastname)
+      }
+
+    }).catch((err) => {//bắt lỗi
+      console.log(
+        'Error', err
+      )
+    })
   }
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  // Khởi tạo
+  // var Car = {
+  //   type: "",
+  //   model: "",
+  //   color: ""
+  // };
+
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -42,8 +87,25 @@ export default function Signin() {
     fontWeight: "bold",
     textAlign: "center"
   }
+
   return (
     <>
+      <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            User Profile
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
       <Box sx={{
         marginTop: 9,
         flexDirection: "column",
@@ -52,7 +114,7 @@ export default function Signin() {
         minHeight: "100vh",
       }} >
         <Container component="main" maxWidth="xs">
-          <Box component="form" >
+          <Box>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
 
               <Grid item xs={12} style={{ textAlign: 'center' }} sx={{ m: 1 }}>
