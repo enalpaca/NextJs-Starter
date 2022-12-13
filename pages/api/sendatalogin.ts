@@ -42,21 +42,12 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   let currentUser = null; //bien co the thay doi gia tri
-  console.log(
-    'req', req
-  )
   if (req.method === 'POST') {
     USERS.forEach(element => {
       if (req.body.username.toLowerCase() === element.username.toLowerCase() && req.body.password === element.password) {
         currentUser = element as CurrentUser;//as nametype = ep kieu
       }
     });
-
-    // if (null) {
-    //   console.log('true')
-    // } else {
-    //   console.log('false')
-    // }
 
     if (currentUser) {
       delete currentUser.password; //xoa mot key trong object 
