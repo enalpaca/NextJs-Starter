@@ -7,8 +7,20 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import React, { useState } from "react";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
-import { error } from "console";
-import style from "styled-jsx/style";
+
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +64,9 @@ export default function Signin() {
         alert("Login fail!")
       }
       else {
-        alert("Say hello" + " " + res.currentUser.firstname + " " + res.currentUser.lastname)
+        // alert("Say hello" + " " + res.currentUser.firstname + " " + res.currentUser.lastname)
+        setOpen(true)
+        setCurrentUser(res.currentUser)
       }
 
     }).catch((err) => {//bắt lỗi
@@ -64,7 +78,8 @@ export default function Signin() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // Khởi tạo
+  const [currentUser, setCurrentUser] = useState();
+  // Khởi tạo object
   // var Car = {
   //   type: "",
   //   model: "",
@@ -90,19 +105,22 @@ export default function Signin() {
 
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
+      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} >
           <Typography id="modal-modal-title" variant="h6" component="h2">
             User Profile
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Say hello: {currentUser?.firstname + currentUser?.lastname}
+          </Typography>
+          <Typography>
+            Phone number: {currentUser?.numberphone}
           </Typography>
         </Box>
       </Modal>
@@ -226,3 +244,8 @@ export default function Signin() {
     </>
   );
 }
+
+
+
+
+
