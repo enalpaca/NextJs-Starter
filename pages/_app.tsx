@@ -5,12 +5,15 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "../utils/theme";
 import createEmotionCache from "../utils/createEmotionCache";
 import { CacheProvider } from "@emotion/react";
+import { SessionProvider } from "next-auth/react"
 const clientSideEmotionCache = createEmotionCache();
-function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache, }) {
+function MyApp({ Component, pageProps: { session, ...pageProps }, emotionCache = clientSideEmotionCache, }) {
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
       </ThemeProvider>
     </CacheProvider>
   );

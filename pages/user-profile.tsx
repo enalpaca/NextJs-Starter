@@ -28,6 +28,8 @@ export default function Signin() {
             'password', password
         )
         // const res = await fetch('https://.../data')
+
+
         const res = fetch('http://localhost:3000/api/sendatalogin', {
             method: 'POST',
             headers: {
@@ -44,14 +46,27 @@ export default function Signin() {
             console.log(
                 'res', res
             )
+
+            if (res.message === 'Fail') {
+                alert("Login fail!")
+            }
+            else {
+                // alert("Say hello" + " " + res.currentUser.firstname + " " + res.currentUser.lastname)
+                setOpen(true)
+                setCurrentUser(res.currentUser)
+            }
+
         }).catch((err) => {//bắt lỗi
             console.log(
                 'Error', err
             )
         })
     }
-
-    // Khởi tạo
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [currentUser, setCurrentUser] = useState();
+    // Khởi tạo object
     // var Car = {
     //   type: "",
     //   model: "",

@@ -1,6 +1,6 @@
-import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper, Divider, Modal, } from "@mui/material";
+import { getCsrfToken } from "next-auth/react"
+import { Container, Box, FormControl, InputLabel, Input, InputAdornment, Grid, IconButton, Typography, Button, Link, Divider, } from "@mui/material";
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import { styled } from '@mui/material/styles';
 import KeyIcon from '@mui/icons-material/Key';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -8,137 +8,31 @@ import React, { useState } from "react";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-export default function Signin() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function Signin({ csrfToken }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
   };
 
-  function handleSubmit(): void {
-    // throw new Error("Function not implemented.");
-    console.log(
-      'Handle Submit'
-    )
-    console.log(
-      'username', username
-    )
-    console.log(
-      'password', password
-    )
-    // const res = await fetch('https://.../data')
-
-
-    const res = fetch('http://localhost:3000/api/sendatalogin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(
-        {
-          username, //key=value
-          password
-        }
-      )
-    }).then((response) => response.json()).then((res) => {//res= lấy về data, 
-      console.log(
-        'res', res
-      )
-
-      if (res.message === 'Fail') {
-        alert("Login fail!")
-      }
-      else {
-        // alert("Say hello" + " " + res.currentUser.firstname + " " + res.currentUser.lastname)
-        setOpen(true)
-        setCurrentUser(res.currentUser)
-      }
-
-    }).catch((err) => {//bắt lỗi
-      console.log(
-        'Error', err
-      )
-    })
-  }
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [currentUser, setCurrentUser] = useState();
-  // Khởi tạo object
-  // var Car = {
-  //   type: "",
-  //   model: "",
-  //   color: ""
-  // };
-
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-  const myComponentStyle = {
-    height: 30,
-    paddingTop: 10,
-    backgroundColor: "green",
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  }
-
-
-
   return (
     <>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            User Profile
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Say hello: {currentUser?.firstname + currentUser?.lastname}
-          </Typography>
-          <Typography>
-            Phone number: {currentUser?.numberphone}
-          </Typography>
-        </Box>
-      </Modal>
       <Box sx={{
         marginTop: 9,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-      }} >
+      }}>
         <Container component="main" maxWidth="xs">
-          <Box>
+          <Box component="form" action="/api/auth/callback/credentials" method="post">
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
 
               <Grid item xs={12} style={{ textAlign: 'center' }} sx={{ m: 1 }}>
                 <Typography component="h1" variant="h4" align="center"> Đăng nhập</Typography>
               </Grid>
+
+              <Input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+
               {/* Phone Number */}
               <Grid item xs={12} style={{ textAlign: 'center' }} >
                 <FormControl variant="standard" margin="normal" fullWidth >
@@ -147,13 +41,13 @@ export default function Signin() {
                   </InputLabel>
                   <Input
                     id="input-with-icon-adornment"
+                    name="username"
                     placeholder="Số điện thoại"
                     startAdornment={
                       <InputAdornment position="start" >
                         <PhoneAndroidIcon />
                       </InputAdornment>
                     }
-                    onChange={(event) => setUsername(event.target.value)}
 
                   />
                 </FormControl>
@@ -167,6 +61,7 @@ export default function Signin() {
                     {/* Password: */}
                   </InputLabel>
                   <Input
+                    name="password"
                     id="input-with-icon-adornment"
                     placeholder="Mật khẩu"
                     type={showPassword === true ? "text" : "password"}
@@ -182,7 +77,6 @@ export default function Signin() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    onChange={(event) => setPassword(event.target.value)}
                   />
                 </FormControl>
               </Grid>
@@ -198,7 +92,7 @@ export default function Signin() {
 
               {/* Button sign in */}
               <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={() => handleSubmit()}>
+                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} >
                   Đăng nhập
                 </Button>
               </Grid>
@@ -239,14 +133,15 @@ export default function Signin() {
             </Grid>
           </Box>
         </Container>
-
-
       </Box >
     </>
   );
 }
 
-
-
-
-
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  }
+} 
