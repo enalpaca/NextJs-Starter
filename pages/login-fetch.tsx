@@ -21,7 +21,7 @@ const style = {
 };
 
 export default function Signin() {
-  const [username, setUsername] = useState("");
+  const [jhfgh, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -82,7 +82,7 @@ export default function Signin() {
   // var Car = {
   //   type: "",
   //   model: "",
-  //   color: ""
+  //   color: "" 
   // };
 
 
