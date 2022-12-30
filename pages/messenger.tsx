@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { auth, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
+import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
+import ChatRoom from "../pages/Components/ChatRoom";
 
 const signInWithGoogle = async () => {
     // const provider = new auth.GoogleAuthProvider();
@@ -25,9 +26,6 @@ const signOut = async () => {
 export default function Home() {
     const [user, setUser] = useState(() => auth.currentUser);
 
-    const fname = 'abc'
-    const lname = 'fff'
-    const name = ''
     const fullname = `Xin chào ${user?.displayName ? user?.displayName : ""}!`//interpolation + short hand if else
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
@@ -54,6 +52,15 @@ export default function Home() {
                     <button onClick={signInWithGoogle}>Sign In With Google</button>
                 </section>
             )}
+            {user ? (
+                <ChatRoom db={db} user={user}>
+
+                </ChatRoom>
+            ) :
+                (
+                    <div></div>
+                )}
+
         </div>
     );
-}
+} 69
