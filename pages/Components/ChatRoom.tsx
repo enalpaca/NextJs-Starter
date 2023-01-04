@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import firebase from "firebase/app";
-import "firebase/firestore";
 import { formatRelative } from "date-fns";
-import firestore, { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query } from "firebase/firestore";
-import { async } from "@firebase/util";
+import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
+
 
 export default function ChatRoom(props: any) {
 
@@ -13,6 +11,24 @@ export default function ChatRoom(props: any) {
     const dummySpace = useRef() as any;
 
     const [newMessage, setNewMessage] = useState("");
+
+    function getMessages(callback) {
+        return onSnapshot(
+            query(
+                collection(db, "messages"),
+                orderBy("createdAt", "desc"),
+                limit(10)
+            ),
+            (querySnapshot) => {
+                const messages = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                callback(messages.reverse());
+            }
+        );
+    }
+
     const handleSubmit = async (e: any) => {
         try {
             e.preventDefault();
@@ -31,7 +47,7 @@ export default function ChatRoom(props: any) {
                 displayName,
                 photoURL,
             });
-
+            setNewMessage('')
             // scroll down the chat
             dummySpace.current.scrollIntoView({ behavor: "smooth" });
         } catch (error) {
@@ -40,31 +56,57 @@ export default function ChatRoom(props: any) {
 
     };
 
+
     const [messages, setMessages] = useState([]);
 
-    const fetchMessage = async () => {
-        let data = []
-        try {
-            const messageRef = collection(db, "messages");
-            const qs = query(messageRef, orderBy("createdAt"), limit(100)) as any;
-            const querySnapshot = await getDocs(qs) as any;
-            data = querySnapshot.docs.map((doc: any) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-        } catch (error) {
-            console.log(error);
-        } finally {
-            console.log(data);
-            return data;
-        }
-    }
-
     useEffect(() => {
-        fetchMessage().then((data: any) => {
-            setMessages(data);
-        })
-    }, [db]);
+        // Subscribe to query with onSnapshot
+        const unsubscribe = getMessages(setMessages);
+        return unsubscribe;
+
+        // Detach listener
+        // return unsubscribe;
+    }, []);
+
+    // const fetchMessage = async () => {
+    //     let data = []
+    //     try {
+    //         const messageRef = collection(db, "messages");
+    //         const qs = query(messageRef, orderBy("createdAt", "desc"), limit(10)) as any;
+    //         const querySnapshot = await getDocs(qs) as any;
+    //         data = querySnapshot.docs.map((doc: any) => ({
+    //             ...doc.data(),
+    //             id: doc.id,
+    //         }));
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         console.log(data);
+    //         return data;
+    //     }
+    // }
+    // const showMessages = () => {
+    //     // If front-end is loading messages behind the scenes, display messages retrieved from Next SSR (passed down from [id].tsx)
+    //     if (messagesLoading) {
+    //         return messages.map(message => (
+    //             <Message key={message.id} message={message} />
+    //         ))
+    //     }
+
+    //     // If front-end has finished loading messages, so now we have messagesSnapshot
+    //     if (messagesSnapshot) {
+    //         return messagesSnapshot.docs.map(message => (
+    //             <Message key={message.id} message={transformMessage(message)} />
+    //         ))
+    //     }
+
+    //     return null
+    // }
+    // useEffect(() => {
+    //     fetchMessage().then((data: any) => {
+    //         setMessages(data.reverse());//đảo mảng 
+    //     })
+    // }, [db]);
     return (
         <main id="chat_room">
             <section ref={dummySpace}></section>
@@ -113,8 +155,17 @@ export default function ChatRoom(props: any) {
                 <button type="submit" disabled={!newMessage}>
                     Send
                 </button>
+
             </form>
 
         </main>
     );
 }
+
+function limitToLast(arg0: number): import("@firebase/firestore").QueryConstraint {
+    throw new Error("Function not implemented.");
+}
+function limitToFirst(arg0: number): import("@firebase/firestore").QueryConstraint {
+    throw new Error("Function not implemented.");
+}
+

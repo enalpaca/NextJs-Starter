@@ -53,7 +53,7 @@ export default function Home() {
                 </section>
             )}
             {user ? (
-                <ChatRoom db={db} user={user}>
+                <ChatRoom db={db} user={user} name={"Erick"}>
 
                 </ChatRoom>
             ) :
