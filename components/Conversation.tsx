@@ -1,9 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { formatRelative } from "date-fns";
 import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
+import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
+import OutlinedInput from "@mui/material/OutlinedInput";
+import styled from "@emotion/styled";
 
-
-export default function ChatRoom(props: any) {
+const StyledMessageContainer = styled.div`
+	padding: 30px;
+	background-color: #e5ded8;
+	min-height: 15vh;
+    `
+const ariaLabel = { 'aria-label': 'description' };
+export default function Conversation(props: any) {
 
     const db = props.db;
     const { uid, displayName, photoURL } = props.user;
@@ -12,7 +21,7 @@ export default function ChatRoom(props: any) {
 
     const [newMessage, setNewMessage] = useState("");
 
-    function getMessages(callback) {
+    function getMessages(callback: any) {
         return onSnapshot(
             query(
                 collection(db, "messages"),
@@ -66,7 +75,7 @@ export default function ChatRoom(props: any) {
 
 
     return (
-        <main id="chat_room">
+        <main id="conversation">
             <ul>
 
                 {messages.map((message: any) => (
@@ -84,36 +93,41 @@ export default function ChatRoom(props: any) {
                         </section>
 
                         <section >
-                            {/* display message text */}
-                            <p>{message.text}</p>
-                            {/* display user name */}
-                            {message.displayName ? <span>{message.displayName}</span> : null}
-                            <br />
-                            {/* display message date and time */}
-                            {message.createdAt?.seconds ? (
-                                <span>
-                                    {formatRelative(
-                                        new Date(message.createdAt.seconds * 1000),
-                                        new Date()
-                                    )}
-                                </span>
-                            ) : null}
-                            <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
+                            <StyledMessageContainer>
+                                {/* display message text */}
+                                <p>{message.text}</p>
+                                {/* display user name */}
+                                {message.displayName ? <span>{message.displayName}</span> : null}
+                                <br />
+                                {/* display message date and time */}
+                                {message.createdAt?.seconds ? (
+                                    <span>
+                                        {formatRelative(
+                                            new Date(message.createdAt.seconds * 1000),
+                                            new Date()
+                                        )}
+                                    </span>
+                                ) : null}
+                                <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
+                            </StyledMessageContainer>
+
                         </section>
                     </li>
                 ))}
 
             </ul>
+
             <form onSubmit={handleSubmit}>
-                <input
+                <OutlinedInput
+                    inputProps={ariaLabel}
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type your message here..."
                 />
-                <button type="submit" disabled={!newMessage}>
-                    Send
-                </button>
+                <Button type="submit" disabled={!newMessage}>
+                    <SendIcon />   {/* Send*/}
+                </Button>
             </form>
         </main>
     );
