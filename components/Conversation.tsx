@@ -5,6 +5,8 @@ import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import OutlinedInput from "@mui/material/OutlinedInput";
 import styled from "@emotion/styled";
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import React from "react";
 
 const StyledMessageContainer = styled.div`
 	padding: 30px;
@@ -76,46 +78,46 @@ export default function Conversation(props: any) {
 
     return (
         <main id="conversation">
-            <ul>
-
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {messages.map((message: any) => (
-                    <li key={message.id} className={message.uid === uid ? "sent" : "received"}>
-                        <section>
-                            {/* display user image */}
-                            {message.photoURL ? (
-                                <img
-                                    src={message.photoURL}
-                                    alt="Avatar"
-                                    width={45}
-                                    height={45}
-                                />
-                            ) : null}
-                        </section>
+                    <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                            <Avatar alt={message.displayName || ""} src={message.photoURL} />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={message.displayName}
+                            secondary={
+                                <>
+                                    <Typography
+                                        sx={{ display: 'inline' }}
+                                        component="span"
+                                        variant="body2"
+                                        color="text.primary"
+                                    >
+                                        {message.text}
 
-                        <section >
-                            <StyledMessageContainer>
-                                {/* display message text */}
-                                <p>{message.text}</p>
-                                {/* display user name */}
-                                {message.displayName ? <span>{message.displayName}</span> : null}
-                                <br />
-                                {/* display message date and time */}
-                                {message.createdAt?.seconds ? (
-                                    <span>
-                                        {formatRelative(
-                                            new Date(message.createdAt.seconds * 1000),
-                                            new Date()
-                                        )}
-                                    </span>
-                                ) : null}
-                                <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
-                            </StyledMessageContainer>
-
-                        </section>
-                    </li>
+                                    </Typography>
+                                    <br></br>
+                                    {message.createdAt?.seconds ? (
+                                        <Typography
+                                            // sx={{ display: 'inline' }}
+                                            component="span"
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
+                                            {formatRelative(
+                                                new Date(message.createdAt.seconds * 1000),
+                                                new Date()
+                                            )}
+                                        </Typography>
+                                    ) : null}
+                                    <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
+                                </>
+                            }
+                        />
+                    </ListItem>
                 ))}
-
-            </ul>
+            </List>
 
             <form onSubmit={handleSubmit}>
                 <OutlinedInput

@@ -1,6 +1,7 @@
 import PrimaryAppBar from "components/AppBar"
 import SideBar from "components/SideBar";
 import styled from "@emotion/styled";
+import Head from 'next/head'
 import { useEffect, useState } from "react";
 import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
 import Conversation from "components/Conversation";
@@ -64,7 +65,13 @@ export default function Home() {
                     <SideBar></SideBar>
                 </Grid>
                 <Grid item xs={9}>
-                    dsfsdf
+                    {user ?
+                        <Conversation db={db} user={user} name={"Erick"}>
+                        </Conversation>
+                        :
+                        null
+                    }
+
                 </Grid>
             </Grid>
         </div>
@@ -94,8 +101,7 @@ export default function Home() {
         //             </StyledContainer>
         //         )}
         //         {user ? (
-        //             <Conversation db={db} user={user} name={"Erick"}>
-        //             </Conversation>
+
         //         ) :
         //             (
         //                 <div></div>

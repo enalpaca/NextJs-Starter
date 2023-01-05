@@ -12,6 +12,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styled from "@emotion/styled";
 import { Button } from '@mui/material';
+import UserList from './UserList'
 
 const StyleContainer = styled.div`
 height: 100vh;
@@ -27,7 +28,7 @@ justify-content:center;
 padding: 15px;
 height: 80px;
 border-bottom: 1px solid whitesmoke;
-position:sticky;
+
 top: 0;
 background-color: white;
 z-index:1
@@ -74,6 +75,7 @@ const SideBar = () => {
                 Start a new conversation
             </StyledListUserButton>
             {/* List of Conversation */}
+            <UserList></UserList>
         </StyleContainer>
     )
 }
