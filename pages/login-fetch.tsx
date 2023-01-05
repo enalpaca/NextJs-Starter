@@ -7,6 +7,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import React, { useState } from "react";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
+import { auth, provider } from "@src/firebase/firebaseConfigs";
+import { signInWithPopup } from "firebase/auth";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -101,7 +103,26 @@ export default function Signin() {
     fontWeight: "bold",
     textAlign: "center"
   }
+  const signInWithGoogle = async () => {
+    // const provider = new auth.GoogleAuthProvider();
+    auth.useDeviceLanguage();
 
+    try {
+      const { user } = await signInWithPopup(auth, provider);
+
+      return { uid: user.uid, displayName: user.displayName };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
   return (
@@ -217,7 +238,7 @@ export default function Signin() {
                     <Button type="submit" fullWidth variant="outlined" href="#as-link"><FacebookOutlinedIcon style={{ color: '#0543ad' }} />Facebook </Button>
                   </Grid>
                   <Grid item xs={6} md={6}>
-                    <Button type="submit" fullWidth variant="outlined" href="#as-link" ><GoogleIcon style={{ color: 'red' }} />Google</Button>
+                    <Button type="submit" fullWidth variant="outlined" href="#as-link" onClick={signInWithGoogle} ><GoogleIcon style={{ color: 'red' }} />Google</Button>
                   </Grid>
                 </Grid>
               </Grid>
