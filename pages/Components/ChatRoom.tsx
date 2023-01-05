@@ -25,6 +25,7 @@ export default function ChatRoom(props: any) {
                     ...doc.data(),
                 }));
                 callback(messages.reverse());
+                scrollToBottom();
             }
         );
     }
@@ -33,13 +34,6 @@ export default function ChatRoom(props: any) {
         try {
             e.preventDefault();
 
-            // db.collection("messages").add({
-            //     text: newMessage,
-            //     createdAt: db.FieldValue.serverTimestamp(),
-            //     uid,
-            //     displayName,
-            //     photoURL,
-            // });
             const doc = await addDoc(collection(db, "messages"), {
                 text: newMessage,
                 createdAt: serverTimestamp(),
@@ -49,13 +43,19 @@ export default function ChatRoom(props: any) {
             });
             setNewMessage('')
             // scroll down the chat
-            dummySpace.current.scrollIntoView({ behavor: "smooth" });
+
         } catch (error) {
             console.log(error)
         }
 
     };
 
+
+    const endOfMessagesRef = useRef<HTMLDivElement>(null)
+
+    const scrollToBottom = () => {
+        endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
 
     const [messages, setMessages] = useState([]);
 
@@ -68,49 +68,11 @@ export default function ChatRoom(props: any) {
         // return unsubscribe;
     }, []);
 
-    // const fetchMessage = async () => {
-    //     let data = []
-    //     try {
-    //         const messageRef = collection(db, "messages");
-    //         const qs = query(messageRef, orderBy("createdAt", "desc"), limit(10)) as any;
-    //         const querySnapshot = await getDocs(qs) as any;
-    //         data = querySnapshot.docs.map((doc: any) => ({
-    //             ...doc.data(),
-    //             id: doc.id,
-    //         }));
-    //     } catch (error) {
-    //         console.log(error);
-    //     } finally {
-    //         console.log(data);
-    //         return data;
-    //     }
-    // }
-    // const showMessages = () => {
-    //     // If front-end is loading messages behind the scenes, display messages retrieved from Next SSR (passed down from [id].tsx)
-    //     if (messagesLoading) {
-    //         return messages.map(message => (
-    //             <Message key={message.id} message={message} />
-    //         ))
-    //     }
 
-    //     // If front-end has finished loading messages, so now we have messagesSnapshot
-    //     if (messagesSnapshot) {
-    //         return messagesSnapshot.docs.map(message => (
-    //             <Message key={message.id} message={transformMessage(message)} />
-    //         ))
-    //     }
-
-    //     return null
-    // }
-    // useEffect(() => {
-    //     fetchMessage().then((data: any) => {
-    //         setMessages(data.reverse());//đảo mảng 
-    //     })
-    // }, [db]);
     return (
         <main id="chat_room">
-            <section ref={dummySpace}></section>
             <ul>
+
                 {messages.map((message: any) => (
                     <li key={message.id} className={message.uid === uid ? "sent" : "received"}>
                         <section>
@@ -125,10 +87,9 @@ export default function ChatRoom(props: any) {
                             ) : null}
                         </section>
 
-                        <section>
+                        <section >
                             {/* display message text */}
                             <p>{message.text}</p>
-
                             {/* display user name */}
                             {message.displayName ? <span>{message.displayName}</span> : null}
                             <br />
@@ -141,9 +102,11 @@ export default function ChatRoom(props: any) {
                                     )}
                                 </span>
                             ) : null}
+                            <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
                         </section>
                     </li>
                 ))}
+
             </ul>
             <form onSubmit={handleSubmit}>
                 <input
@@ -155,9 +118,7 @@ export default function ChatRoom(props: any) {
                 <button type="submit" disabled={!newMessage}>
                     Send
                 </button>
-
             </form>
-
         </main>
     );
 }
