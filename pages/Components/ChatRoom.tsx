@@ -60,12 +60,8 @@ export default function ChatRoom(props: any) {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        // Subscribe to query with onSnapshot
         const unsubscribe = getMessages(setMessages);
         return unsubscribe;
-
-        // Detach listener
-        // return unsubscribe;
     }, []);
 
 
