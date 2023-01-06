@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import ChatIcon from '@mui/icons-material/Chat';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styled from "@emotion/styled";
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import UserList from './UserList'
 
 const StyleContainer = styled.div`
@@ -19,19 +19,27 @@ height: 100vh;
 min-width: 300px;
 max-width:350px;
 overflow-y:scoll;
-border-right:1px solid whitesmoke
+border-right:1px solid whitesmoke;
+/* Hide scrollbar for Chrome, Safari and Opera */
+	::-webkit-scrollbar {
+		display: none;
+	}
+    /* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 `
 
 const StyledHeader = styled.div`
 display: flex;
-justify-content:center;
-padding: 15px;
-height: 80px;
-border-bottom: 1px solid whitesmoke;
-
-top: 0;
-background-color: white;
-z-index:1
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px;
+	height: 80px;
+	border-bottom: 1px solid whitesmoke;
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 1;
 `
 const StyleSearchInput = styled.input`
 outline: none;
@@ -53,7 +61,9 @@ const SideBar = () => {
     return (
         <StyleContainer>
             <StyledHeader>
-                <div>Chat</div>
+                <Typography variant="h5" gutterBottom component="div" sx={{ p: 2, pb: 0 }}>
+                    Chats
+                </Typography>
                 <div>
                     <IconButton>
                         <MessageIcon />

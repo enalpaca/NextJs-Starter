@@ -23,7 +23,7 @@ const style = {
 };
 
 export default function Signin() {
-  const [jhfgh, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -268,6 +268,37 @@ export default function Signin() {
 }
 
 
+        // <div className="container">
+        //     <div className="container">
+        //         <PrimaryAppBar></PrimaryAppBar>
+        //     </div>
+        //     <div className="container">
+        //         {fullname}
+        //         {user ? (
+        //             <>
+        //                 <nav id="sign_out">
+        //                     <h2>Chat With Friends</h2>
+        //                     <button onClick={signOut}>Sign Out</button>
+        //                 </nav>
+        //             </>
+        //         ) : (
+        //             <StyledContainer>
+        //                 <StyledLoginContainer>
+        //                     <section id="sign_in">
+        //                         <h1>Welcome to Chat Room</h1>
+        //                         <button onClick={signInWithGoogle}>Sign In With Google</button>
+        //                     </section>
+        //                 </StyledLoginContainer>
+        //             </StyledContainer>
+        //         )}
+        //         {user ? (
 
+        //         ) :
+        //             (
+        //                 <div></div>
+        //             )}
+        //     </div>
+
+        // </div>
 
 

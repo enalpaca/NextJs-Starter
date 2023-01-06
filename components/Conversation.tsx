@@ -5,17 +5,47 @@ import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import OutlinedInput from "@mui/material/OutlinedInput";
 import styled from "@emotion/styled";
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from "@mui/material";
 import React from "react";
+import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
+import InfoIcon from '@mui/icons-material/Info';
+import CallSharpIcon from '@mui/icons-material/CallSharp';
+import VideocamSharpIcon from '@mui/icons-material/VideocamSharp';
 
 const StyledMessageContainer = styled.div`
 	padding: 30px;
 	background-color: #e5ded8;
 	min-height: 15vh;
     `
+const StyledHeader = styled.div`
+display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px;
+	height: 80px;
+	border-bottom: 1px solid whitesmoke;
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 1;
+`
 const ariaLabel = { 'aria-label': 'description' };
 export default function Conversation(props: any) {
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+    const [user, setUser] = useState(() => auth.currentUser);
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                setUser(null);
+            }
+        });
+    }, []);
     const db = props.db;
     const { uid, displayName, photoURL } = props.user;
 
@@ -28,7 +58,7 @@ export default function Conversation(props: any) {
             query(
                 collection(db, "messages"),
                 orderBy("createdAt", "desc"),
-                limit(10)
+                limit(20)
             ),
             (querySnapshot) => {
                 const messages = querySnapshot.docs.map((doc) => ({
@@ -78,7 +108,61 @@ export default function Conversation(props: any) {
 
     return (
         <main id="conversation">
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+            {/* style scroll
+            <StyledHeader> header of conversation
+
+                <div>
+                    {"Avatar and name of user"}
+                </div>
+
+                <div>
+                    <IconButton>
+
+                    </IconButton>
+                    <IconButton>
+
+                    </IconButton>
+                </div>
+            </StyledHeader>
+
+sx={{
+                    mb: 2,
+                    width: '100%',
+                    maxWidth: 360,
+                    bgcolor: 'background.paper',
+                    position: 'relative',
+                    overflow: 'auto',
+                    maxHeight: 300,
+                    '& ul': { padding: 0 }
+                }}
+
+*/}
+            <StyledHeader> Avatar and name header of conversation
+
+                <div>
+                    {/* {"Avatar and name of user"} */}
+                </div>
+
+                <div>
+
+
+                    <IconButton title="Start a voice call" >
+                        <CallSharpIcon />
+                    </IconButton>
+                    <IconButton title="Start a video call">
+                        <VideocamSharpIcon />
+                    </IconButton>
+                    <IconButton title="Conversation information">
+                        <InfoIcon />
+                    </IconButton>
+                </div>
+            </StyledHeader>
+            <List sx={{
+                width: '100%', maxWidth: "100%", bgcolor: 'background.paper', position: 'relative',
+                overflow: 'auto',
+                maxHeight: 600,
+                '& ul': { padding: 0 }
+            }}   >
                 {messages.map((message: any) => (
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
@@ -112,11 +196,14 @@ export default function Conversation(props: any) {
                                         </Typography>
                                     ) : null}
                                     <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
+
                                 </>
                             }
                         />
+
                     </ListItem>
                 ))}
+
             </List>
 
             <form onSubmit={handleSubmit}>
@@ -126,12 +213,13 @@ export default function Conversation(props: any) {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type your message here..."
+
                 />
                 <Button type="submit" disabled={!newMessage}>
                     <SendIcon />   {/* Send*/}
                 </Button>
             </form>
-        </main>
+        </main >
     );
 }
 
