@@ -42,7 +42,7 @@ const signOut = async () => {
     }
 };
 
-export default function Home() {
+const MessengerPage = () => {
     const [user, setUser] = useState(() => auth.currentUser);
 
     const fullname = `Xin chào ${user?.displayName ? user?.displayName : ""}!`//interpolation + short hand if else
@@ -108,4 +108,12 @@ export default function Home() {
 
         // </div>
     );
-} 
+}
+
+MessengerPage.auth = {
+    required: true,
+    role: '',
+    redirect: null
+}
+
+export default MessengerPage

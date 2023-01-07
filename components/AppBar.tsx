@@ -19,8 +19,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -73,10 +71,7 @@ const signOut = async () => {
 
 export default function PrimaryAppBar() {
     const [user, setUser] = useState(() => auth.currentUser);
-    const router = useRouter();
-    if (!user) {
-        router.push('/login')
-    }
+
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
