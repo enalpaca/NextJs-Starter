@@ -5,13 +5,19 @@ import VideoCallIcon from '@mui/icons-material/VideoCall'
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styled from "@emotion/styled";
-import { Button, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Typography } from '@mui/material';
 import UserList from './UserList'
+import { useState } from 'react';
+import { auth, db } from '@src/firebase/firebaseConfigs';
+import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
+
+
 
 const StyleContainer = styled.div`
-// min-width: 390px;
-// max-width:390px;
-padding-left:15px;
+min-width: 0px;
+max-width:400px;
+padding-left:2px;
+padding-right:0px;
 overflow-y:scoll;
 border-right:1px solid whitesmoke;
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -53,6 +59,25 @@ border-top:1px solid whitesmoke;
 border-bottom: 1px solid whitesmoke
 `
 const SideBar = () => {
+    const [loggedInUser, _loading] = useState(auth)
+    const [isOpenNewConversationDialog, setisOpenNewConversationDialog] = useState(false)
+    const [recipientMessage, setrecipientMessage] = useState('')
+    const toggleNewConversationDialog = (isOpen: boolean) => {
+        setisOpenNewConversationDialog(isOpen)
+        if (!isOpen) setrecipientMessage('')
+    }
+    const closeNewConversationDialog = () => (
+        toggleNewConversationDialog(false)
+    )
+
+    // const isInvitedSelf =recipientMessage===loggedInUser?.email kiem tra xem co tu nhap mail chinhh minh hay khong
+    const createdConversation = async () => {
+        // neu la email hop le va khong tu nhan cho chinh minh
+        await addDoc(collection(db, 'conversations'), {
+            users: [loggedInUser?.email, recipientMessage]
+        });
+        closeNewConversationDialog()
+    }
     return (
         <StyleContainer>
             <StyledHeader>
@@ -60,9 +85,36 @@ const SideBar = () => {
                     Chats
                 </Typography>
                 <div>
-                    <IconButton>
+
+                    <IconButton onClick={() => {
+                        toggleNewConversationDialog(true)
+                    }}>
                         <MessageIcon />
                     </IconButton>
+                    <Dialog open={isOpenNewConversationDialog} onClose={closeNewConversationDialog}>
+                        <DialogTitle>Start a new conversation</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Please enteremail address here
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                label="Email Address"
+                                type="email"
+                                fullWidth
+                                variant="standard"
+                                value={recipientMessage}
+                                onChange={event =>
+                                    setrecipientMessage(event.target.value)
+                                }
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={closeNewConversationDialog}>Cancel</Button>
+                            <Button disabled={!recipientMessage} onClick={createdConversation}>Start</Button>
+                        </DialogActions>
+                    </Dialog>
+
                     <IconButton>
                         <VideoCallIcon />
                     </IconButton>

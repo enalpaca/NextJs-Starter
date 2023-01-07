@@ -164,10 +164,10 @@ export default function Home() {
             <div className="container">
                 {user ? (
                     <>
-                        <nav id="sign_out">
+                        {/* <nav id="sign_out">
 
                             <button onClick={signOut}>Sign Out</button>
-                        </nav>
+                        </nav> */}
                     </>
                 ) : (
 
