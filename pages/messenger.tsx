@@ -1,7 +1,6 @@
 import PrimaryAppBar from "components/AppBar"
 import SideBar from "components/SideBar";
 import styled from "@emotion/styled";
-import Head from 'next/head'
 import { useEffect, useState } from "react";
 import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
 import Conversation from "components/Conversation";
@@ -59,12 +58,11 @@ export default function Home() {
     return (
         <div>
             <PrimaryAppBar></PrimaryAppBar>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                <Grid item xs={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ maxHeight: 650 }}>
+                <Grid item xs={3} sx={{ maxHeight: 650 }}>
                     <SideBar></SideBar>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={9} sx={{ maxHeight: 650, paddingLef: "0px" }}>
                     {user ?
                         <Conversation db={db} user={user} name={"Erick"}>
                         </Conversation>

@@ -1,23 +1,17 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
 import MessageIcon from '@mui/icons-material/Message'
 import VideoCallIcon from '@mui/icons-material/VideoCall'
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import ChatIcon from '@mui/icons-material/Chat';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styled from "@emotion/styled";
 import { Button, Typography } from '@mui/material';
 import UserList from './UserList'
 
 const StyleContainer = styled.div`
-height: 100vh;
-min-width: 300px;
-max-width:350px;
+// min-width: 390px;
+// max-width:390px;
+padding-left:15px;
 overflow-y:scoll;
 border-right:1px solid whitesmoke;
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -27,6 +21,7 @@ border-right:1px solid whitesmoke;
     /* Hide scrollbar for IE, Edge and Firefox */
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
+
 `
 
 const StyledHeader = styled.div`

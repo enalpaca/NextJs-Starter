@@ -13,12 +13,12 @@ import CallSharpIcon from '@mui/icons-material/CallSharp';
 import VideocamSharpIcon from '@mui/icons-material/VideocamSharp';
 
 const StyledMessageContainer = styled.div`
-	padding: 30px;
-	background-color: #e5ded8;
-	min-height: 15vh;
+	padding: 0px;
+	background-color: white;
     `
 const StyledHeader = styled.div`
 display: flex;
+
 	justify-content: space-between;
 	align-items: center;
 	padding: 15px;
@@ -107,36 +107,7 @@ export default function Conversation(props: any) {
 
 
     return (
-        <main id="conversation">
-            {/* style scroll
-            <StyledHeader> header of conversation
-
-                <div>
-                    {"Avatar and name of user"}
-                </div>
-
-                <div>
-                    <IconButton>
-
-                    </IconButton>
-                    <IconButton>
-
-                    </IconButton>
-                </div>
-            </StyledHeader>
-
-sx={{
-                    mb: 2,
-                    width: '100%',
-                    maxWidth: 360,
-                    bgcolor: 'background.paper',
-                    position: 'relative',
-                    overflow: 'auto',
-                    maxHeight: 300,
-                    '& ul': { padding: 0 }
-                }}
-
-*/}
+        <StyledMessageContainer>
             <StyledHeader> Avatar and name header of conversation
 
                 <div>
@@ -160,7 +131,7 @@ sx={{
             <List sx={{
                 width: '100%', maxWidth: "100%", bgcolor: 'background.paper', position: 'relative',
                 overflow: 'auto',
-                maxHeight: 600,
+                maxHeight: 513,
                 '& ul': { padding: 0 }
             }}   >
                 {messages.map((message: any) => (
@@ -195,7 +166,7 @@ sx={{
                                             )}
                                         </Typography>
                                     ) : null}
-                                    <div style={{ marginBottom: "30px" }} ref={endOfMessagesRef}> </div>
+                                    <div style={{ marginBottom: "2px" }} ref={endOfMessagesRef}> </div>
 
                                 </>
                             }
@@ -219,7 +190,7 @@ sx={{
                     <SendIcon />   {/* Send*/}
                 </Button>
             </form>
-        </main >
+        </StyledMessageContainer>
     );
 }
 

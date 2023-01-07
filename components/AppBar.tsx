@@ -19,6 +19,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -61,8 +62,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
+
+const signOut = async () => {
+    try {
+        await auth.signOut();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export default function PrimaryAppBar() {
     const [user, setUser] = useState(() => auth.currentUser);
+    const router = useRouter();
+    if (!user) {
+        router.push('/login')
+    }
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -312,7 +326,12 @@ export default function PrimaryAppBar() {
                                 >
                                     {settings.map((setting) => (
                                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center">{setting}</Typography>
+                                            <Typography textAlign="center" onClick={
+                                                () => {
+                                                    setting === "Logout" ?
+                                                        signOut()
+                                                        : null
+                                                }} >{setting}</Typography>
                                         </MenuItem>
                                     ))}
                                 </Menu>

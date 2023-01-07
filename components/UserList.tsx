@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
@@ -14,10 +9,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Avatar from '@mui/material/Avatar';
-import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
 
 const messages = [
     {
@@ -67,41 +58,29 @@ const messages = [
         person: '/static/images/avatar/1.jpg',
     },
 ];
-
-const StyledFab = styled(Fab)({
-    position: 'absolute',
-    zIndex: 1,
-    top: -30,
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-});
-
 export default function BottomAppBar() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <Paper square sx={{ pb: '100%' }}  >
-
+            <Paper>
                 <List sx={{
                     mb: 2,
                     width: '100%',
-                    maxWidth: 360,
                     bgcolor: 'background.paper',
                     position: 'relative',
                     overflow: 'auto',
-                    maxHeight: 600,
+                    maxHeight: 475,
                     '& ul': { padding: 0 }
                 }}>
                     {messages.map(({ id, primary, secondary, person }) => (
                         <React.Fragment key={id}>
                             {id === 1 && (
-                                <ListSubheader sx={{ bgcolor: 'background.paper' }}>
+                                <ListSubheader>
                                     Today
                                 </ListSubheader>
                             )}
                             {id === 3 && (
-                                <ListSubheader sx={{ bgcolor: 'background.paper' }}>
+                                <ListSubheader >
                                     Yesterday
                                 </ListSubheader>
                             )}
@@ -115,7 +94,6 @@ export default function BottomAppBar() {
                     ))}
                 </List>
             </Paper>
-
         </React.Fragment>
     );
 }
