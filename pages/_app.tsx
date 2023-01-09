@@ -9,7 +9,6 @@ import { SessionProvider } from "next-auth/react"
 import { auth } from '@src/firebase/firebaseConfigs';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
 const clientSideEmotionCache = createEmotionCache();
 function MyApp({ Component, pageProps: { session, ...pageProps }, emotionCache = clientSideEmotionCache, }: any) {
   return (

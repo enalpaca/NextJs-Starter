@@ -9,10 +9,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import UserList from './UserList'
 import { useState } from 'react';
 import { auth, db } from '@src/firebase/firebaseConfigs';
-import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
-
-
-
+import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot, where } from "firebase/firestore";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import * as EmailValidator from 'email-validator'
+import { useCollection } from 'react-firebase-hooks/firestore'
+import { Conversation } from 'pages';
 const StyleContainer = styled.div`
 min-width: 0px;
 max-width:400px;
@@ -59,7 +60,7 @@ border-top:1px solid whitesmoke;
 border-bottom: 1px solid whitesmoke
 `
 const SideBar = () => {
-    const [loggedInUser, _loading] = useState(auth)
+    const [loggedInUser, _loading] = useAuthState(auth)
     const [isOpenNewConversationDialog, setisOpenNewConversationDialog] = useState(false)
     const [recipientMessage, setrecipientMessage] = useState('')
     const toggleNewConversationDialog = (isOpen: boolean) => {
@@ -69,13 +70,22 @@ const SideBar = () => {
     const closeNewConversationDialog = () => (
         toggleNewConversationDialog(false)
     )
-
-    // const isInvitedSelf =recipientMessage===loggedInUser?.email kiem tra xem co tu nhap mail chinhh minh hay khong
+    //check if conservation already exists between the current logged in user and recipient
+    const queryGetConversationForCurrentUSer = query(collection(db, 'conversations'), where('user', 'array-contains', loggedInUser?.email))
+    const [conversationsSnapshot] = useCollection(queryGetConversationForCurrentUSer)
+    const isConversationAtreadyExists = (recipientMessage: string) => {
+        return conversationsSnapshot?.docs.find(conversation => (conversation.data() as Conversation).users.includes(recipientMessage))
+    }
+    const isInvitingSelf = recipientMessage === loggedInUser?.email
     const createdConversation = async () => {
-        // neu la email hop le va khong tu nhan cho chinh minh
-        await addDoc(collection(db, 'conversations'), {
-            users: [loggedInUser?.email, recipientMessage]
-        });
+        if (!recipientMessage) return
+        if (EmailValidator.validate(recipientMessage) && !isInvitingSelf && !isConversationAtreadyExists(recipientMessage)) {
+            //Add conversation user to db "conversation" collection
+            //A conversation is between the currently loogged in user and the user invited
+            await addDoc(collection(db, 'conversations'), {
+                users: [loggedInUser?.email, recipientMessage]
+            })
+        }
         closeNewConversationDialog()
     }
     return (
