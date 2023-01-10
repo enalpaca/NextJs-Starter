@@ -14,6 +14,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import * as EmailValidator from 'email-validator'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { Conversation } from 'pages';
+import ConversationSelect from './ConversationSelect';
 const StyleContainer = styled.div`
 min-width: 0px;
 max-width:400px;
@@ -71,8 +72,12 @@ const SideBar = () => {
         toggleNewConversationDialog(false)
     )
     //check if conservation already exists between the current logged in user and recipient
-    const queryGetConversationForCurrentUSer = query(collection(db, 'conversations'), where('user', 'array-contains', loggedInUser?.email))
-    const [conversationsSnapshot] = useCollection(queryGetConversationForCurrentUSer)
+    console.log('loggedInUser', loggedInUser)
+    const queryGetConversationForCurrentUSer = query(collection(db, 'conversations'), where('users', 'array-contains', loggedInUser?.email))
+
+    const [conversationsSnapshot] = useCollection(queryGetConversationForCurrentUSer);
+    console.log(conversationsSnapshot?.docs)
+
     const isConversationAtreadyExists = (recipientMessage: string) => {
         return conversationsSnapshot?.docs.find(conversation => (conversation.data() as Conversation).users.includes(recipientMessage))
     }
@@ -88,6 +93,7 @@ const SideBar = () => {
         }
         closeNewConversationDialog()
     }
+
     return (
         <StyleContainer>
             <StyledHeader>
@@ -142,7 +148,17 @@ const SideBar = () => {
                 Start a new conversation
             </StyledListUserButton>
             {/* List of Conversation */}
-            <UserList></UserList>
+            <div>
+                {conversationsSnapshot?.docs.map(conversation => (
+                    <ConversationSelect
+                        key={conversation.id}
+                        id={conversation.id}
+                        conversationUsers={(conversation.data() as Conversation).users}
+                    ></ConversationSelect>
+                ))}
+
+            </div>
+
         </StyleContainer>
     )
 }

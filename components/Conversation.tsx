@@ -29,6 +29,13 @@ display: flex;
 	background-color: white;
 	z-index: 1;
 `
+// function limitToLast(arg0: number): import("@firebase/firestore").QueryConstraint {
+//     throw new Error("Function not implemented.");
+// }
+// function limitToFirst(arg0: number): import("@firebase/firestore").QueryConstraint {
+//     throw new Error("Function not implemented.");
+// }
+
 const ariaLabel = { 'aria-label': 'description' };
 export default function Conversation(props: any) {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -194,10 +201,4 @@ export default function Conversation(props: any) {
     );
 }
 
-function limitToLast(arg0: number): import("@firebase/firestore").QueryConstraint {
-    throw new Error("Function not implemented.");
-}
-function limitToFirst(arg0: number): import("@firebase/firestore").QueryConstraint {
-    throw new Error("Function not implemented.");
-}
 
