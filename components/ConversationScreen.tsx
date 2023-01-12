@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { formatRelative } from "date-fns";
-import { collection, addDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
+import { doc, collection, addDoc, updateDoc, getDocs, serverTimestamp, limit, orderBy, query, onSnapshot } from "firebase/firestore";
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -54,7 +54,7 @@ export default function ConversationScreen(props: any) {
         });
     }, []);
     const db = props.db;
-    const { uid, displayName, photoURL } = props.user;
+    const { uid, displayName, photoURL, email } = props.user;
     const { conversationId } = props
 
     const dummySpace = useRef() as any;
@@ -83,13 +83,26 @@ export default function ConversationScreen(props: any) {
         try {
             e.preventDefault();
 
-            const doc = await addDoc(collection(db, "conversations", conversationId, "messages"), {
+            await addDoc(collection(db, "conversations", conversationId, "messages"), {
                 text: newMessage,
                 createdAt: serverTimestamp(),
                 uid,
                 displayName,
                 photoURL,
+                senderEmail: email
             });
+
+            const docRef = doc(db, "conversations", conversationId);
+            await updateDoc(docRef, {
+                latestMsg: {
+                    text: newMessage,
+                    createdAt: serverTimestamp(),
+                    uid,
+                    displayName,
+                    photoURL,
+                    senderEmail: email
+                }
+            })
             setNewMessage('')
             // scroll down the chat
 

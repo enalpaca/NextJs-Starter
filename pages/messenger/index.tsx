@@ -30,7 +30,7 @@ const signInWithGoogle = async () => {
 
         return { uid: user.uid, displayName: user.displayName };
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 
@@ -38,7 +38,7 @@ const signOut = async () => {
     try {
         await auth.signOut();
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 

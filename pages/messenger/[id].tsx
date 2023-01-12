@@ -32,7 +32,7 @@ const signInWithGoogle = async () => {
 
         return { uid: user.uid, displayName: user.displayName };
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 
@@ -40,14 +40,14 @@ const signOut = async () => {
     try {
         await auth.signOut();
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 
 const MessengerDetailPage = () => {
     const router = useRouter()
     const conversationId = router.query.id
-    console.log(conversationId)
+
     const [user, setUser] = useState(() => auth.currentUser);
 
     const fullname = `Xin chào ${user?.displayName ? user?.displayName : ""}!`//interpolation + short hand if else

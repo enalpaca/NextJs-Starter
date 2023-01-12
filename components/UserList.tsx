@@ -88,7 +88,7 @@ export default function BottomAppBar() {
                             <ListItemAvatar>
                                 <Avatar alt="Profile Picture" src="" />
                             </ListItemAvatar>
-                            <ListItemText primary={receiverEmail[0]} secondary={"chu text"} />
+                            <ListItemText primary={receiverEmail ? receiverEmail[0] : ""} secondary={con?.latestMsg?.text || ""} />
                         </ListItem>)
 
                     })}
