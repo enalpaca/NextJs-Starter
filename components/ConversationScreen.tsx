@@ -37,7 +37,7 @@ display: flex;
 // }
 
 const ariaLabel = { 'aria-label': 'description' };
-export default function Conversation(props: any) {
+export default function ConversationScreen(props: any) {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -141,8 +141,8 @@ export default function Conversation(props: any) {
                 maxHeight: 513,
                 '& ul': { padding: 0 }
             }}   >
-                {messages.map((message: any) => (
-                    <ListItem alignItems="flex-start">
+                {messages.map((message: any, index) => (
+                    <ListItem alignItems="flex-start" key={index}>
                         <ListItemAvatar>
                             <Avatar alt={message.displayName || ""} src={message.photoURL} />
                         </ListItemAvatar>
@@ -173,14 +173,15 @@ export default function Conversation(props: any) {
                                             )}
                                         </Typography>
                                     ) : null}
-                                    <div style={{ marginBottom: "2px" }} ref={endOfMessagesRef}> </div>
 
                                 </>
                             }
                         />
-
+                        <div style={{ marginBottom: "2px" }} ref={endOfMessagesRef}> </div>
                     </ListItem>
+
                 ))}
+
 
             </List>
 

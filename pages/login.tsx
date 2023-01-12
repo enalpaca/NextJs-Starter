@@ -4,7 +4,7 @@ import SideBar from "components/SideBar";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from "react";
 import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
-import Conversation from "components/Conversation";
+import ConversationScreen from "components/ConversationScreen";
 import { useRouter } from "next/router";
 
 import { Container, Box, FormControl, InputLabel, Input, InputAdornment, TextField, Grid, IconButton, Typography, Button, Link, Paper, Divider, Modal, } from "@mui/material";

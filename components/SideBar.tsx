@@ -5,7 +5,7 @@ import VideoCallIcon from '@mui/icons-material/VideoCall'
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styled from "@emotion/styled";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Typography } from '@mui/material';
 import UserList from './UserList'
 import { useState } from 'react';
 import { auth, db } from '@src/firebase/firebaseConfigs';
@@ -30,7 +30,20 @@ border-right:1px solid whitesmoke;
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 
-`
+// height: 100vh;
+// 	min-width: 300px;
+// 	max-width: 350px;
+// 	overflow-y: scroll;
+// 	border-right: 1px solid whitesmoke;
+// 	/* Hide scrollbar for Chrome, Safari and Opera */
+// 	::-webkit-scrollbar {
+// 		display: none;
+// 	}
+// 	/* Hide scrollbar for IE, Edge and Firefox */
+// 	-ms-overflow-style: none; /* IE and Edge */
+// 	scrollbar-width: none; /* Firefox */
+
+// `
 
 const StyledHeader = styled.div`
 display: flex;
@@ -47,6 +60,7 @@ display: flex;
 const StyleSearchInput = styled.input`
 outline: none;
 border:none;
+
 flex:1;
 `
 const StyledSearch = styled.div`
@@ -54,9 +68,12 @@ display: flex;
 align-items:center;
 padding: 15px;
 border-radius:2px;
+position: sticky;
 `
+
 const StyledListUserButton = styled(Button)`
 width:100%;
+position: sticky;
 border-top:1px solid whitesmoke;
 border-bottom: 1px solid whitesmoke
 `
@@ -72,11 +89,11 @@ const SideBar = () => {
         toggleNewConversationDialog(false)
     )
     //check if conservation already exists between the current logged in user and recipient
-    console.log('loggedInUser', loggedInUser)
+    // console.log('loggedInUser', loggedInUser)
     const queryGetConversationForCurrentUSer = query(collection(db, 'conversations'), where('users', 'array-contains', loggedInUser?.email))
 
     const [conversationsSnapshot] = useCollection(queryGetConversationForCurrentUSer);
-    console.log(conversationsSnapshot?.docs)
+    // console.log(conversationsSnapshot?.docs)
 
     const isConversationAtreadyExists = (recipientMessage: string) => {
         return conversationsSnapshot?.docs.find(conversation => (conversation.data() as Conversation).users.includes(recipientMessage))
@@ -148,17 +165,15 @@ const SideBar = () => {
                 Start a new conversation
             </StyledListUserButton>
             {/* List of Conversation */}
-            <div>
-                {conversationsSnapshot?.docs.map(conversation => (
-                    <ConversationSelect
-                        key={conversation.id}
-                        id={conversation.id}
-                        conversationUsers={(conversation.data() as Conversation).users}
-                    ></ConversationSelect>
-                ))}
 
-            </div>
-
+            {/* {conversationsSnapshot?.docs.map(conversation => (
+                <ConversationSelect
+                    key={conversation.id}
+                    id={conversation.id}
+                    conversationUsers={(conversation.data() as Conversation).users}
+                ></ConversationSelect>
+            ))} */}
+            <UserList></UserList>
         </StyleContainer>
     )
 }

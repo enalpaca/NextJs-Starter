@@ -79,7 +79,7 @@ export default function Signin() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [currentUser, setCurrentUser: any] = useState();
+  const [currentUser, setCurrentUser] = useState();
   // Khởi tạo object
   // var Car = {
   //   type: "",

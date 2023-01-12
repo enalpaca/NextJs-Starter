@@ -9,6 +9,10 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Avatar from '@mui/material/Avatar';
+import { auth, db } from '@src/firebase/firebaseConfigs';
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useConversation } from "hooks/useConversation";
+import { useRouter } from 'next/router';
 
 const messages = [
     {
@@ -59,6 +63,10 @@ const messages = [
     },
 ];
 export default function BottomAppBar() {
+    const router = useRouter()
+    const [loggedInUser, _loading, _error] = useAuthState(auth)
+    const { conversations } = useConversation()
+
     return (
         <React.Fragment>
             <CssBaseline />
@@ -72,6 +80,19 @@ export default function BottomAppBar() {
                     maxHeight: 475,
                     '& ul': { padding: 0 }
                 }}>
+
+                    {conversations?.map((con, index) => {
+
+                        const receiverEmail = con.users.filter(i => i !== loggedInUser?.email)
+                        return (<ListItem button onClick={() => router.push('/messenger/' + con.id)} key={index}>
+                            <ListItemAvatar>
+                                <Avatar alt="Profile Picture" src="" />
+                            </ListItemAvatar>
+                            <ListItemText primary={receiverEmail[0]} secondary={"chu text"} />
+                        </ListItem>)
+
+                    })}
+
                     {messages.map(({ id, primary, secondary, person }) => (
                         <React.Fragment key={id}>
                             {id === 1 && (

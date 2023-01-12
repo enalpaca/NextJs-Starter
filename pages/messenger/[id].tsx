@@ -3,8 +3,10 @@ import SideBar from "components/SideBar";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { auth, db, provider, signInWithPopup } from "src/firebase/firebaseConfigs";
-import Conversation from "components/Conversation";
+import ConversationScreen from "components/ConversationScreen";
 import Grid from '@mui/material/Grid';
+import { Router } from "express";
+import { useRouter } from "next/router";
 
 const StyledContainer = styled.div`
 	height: 100vh;
@@ -42,7 +44,10 @@ const signOut = async () => {
     }
 };
 
-const MessengerPage = () => {
+const MessengerDetailPage = () => {
+    const router = useRouter()
+    const conversationId = router.query.id
+    console.log(conversationId)
     const [user, setUser] = useState(() => auth.currentUser);
 
     const fullname = `Xin chào ${user?.displayName ? user?.displayName : ""}!`//interpolation + short hand if else
@@ -55,6 +60,11 @@ const MessengerPage = () => {
             }
         });
     }, []);
+
+
+
+
+
     return (
         <div>
             <PrimaryAppBar></PrimaryAppBar>
@@ -64,8 +74,8 @@ const MessengerPage = () => {
                 </Grid>
                 <Grid item xs={9} sx={{ maxHeight: 650, paddingLef: "0px" }}>
                     {user ?
-                        <Conversation db={db} user={user} name={"Erick"}>
-                        </Conversation>
+                        <ConversationScreen db={db} user={user} name={"Erick"}>
+                        </ConversationScreen>
                         :
                         null
                     }
@@ -110,10 +120,10 @@ const MessengerPage = () => {
     );
 }
 
-MessengerPage.auth = {
+MessengerDetailPage.auth = {
     required: true,
     role: '',
     redirect: null
 }
 
-export default MessengerPage
+export default MessengerDetailPage

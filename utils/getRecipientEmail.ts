@@ -4,4 +4,4 @@ import { Conversation } from '../pages'
 export const getRecipientEmail = (
     conversationUsers: Conversation['users'],
     loggedInUser?: User | null
-) => conversationUsers.find(userEmail => userEmail !== loggedInUser?.email)
+) => conversationUsers?.find(userEmail => userEmail !== loggedInUser?.email)
