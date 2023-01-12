@@ -74,7 +74,7 @@ const MessengerDetailPage = () => {
                 </Grid>
                 <Grid item xs={9} sx={{ maxHeight: 650, paddingLef: "0px" }}>
                     {user ?
-                        <ConversationScreen db={db} user={user} name={"Erick"}>
+                        <ConversationScreen db={db} user={user} conversationId={conversationId}>
                         </ConversationScreen>
                         :
                         null

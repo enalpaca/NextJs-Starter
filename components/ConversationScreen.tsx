@@ -55,6 +55,7 @@ export default function ConversationScreen(props: any) {
     }, []);
     const db = props.db;
     const { uid, displayName, photoURL } = props.user;
+    const { conversationId } = props
 
     const dummySpace = useRef() as any;
 
@@ -63,7 +64,7 @@ export default function ConversationScreen(props: any) {
     function getMessages(callback: any) {
         return onSnapshot(
             query(
-                collection(db, "messages"),
+                collection(db, "conversations", conversationId, "messages"),
                 orderBy("createdAt", "desc"),
                 limit(20)
             ),
@@ -82,7 +83,7 @@ export default function ConversationScreen(props: any) {
         try {
             e.preventDefault();
 
-            const doc = await addDoc(collection(db, "messages"), {
+            const doc = await addDoc(collection(db, "conversations", conversationId, "messages"), {
                 text: newMessage,
                 createdAt: serverTimestamp(),
                 uid,
@@ -110,7 +111,7 @@ export default function ConversationScreen(props: any) {
     useEffect(() => {
         const unsubscribe = getMessages(setMessages);
         return unsubscribe;
-    }, []);
+    }, [conversationId]);
 
 
     return (
