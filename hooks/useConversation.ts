@@ -24,6 +24,8 @@ export const useConversation = () => {
     const conversations = recipientsSnapshot?.docs?.map((doc) => {
         return {
             id: doc.id,
+            users: doc.data().users as string[],
+            latestMsg: doc.data().latestMsg,
             ...doc.data()
         }
     })
