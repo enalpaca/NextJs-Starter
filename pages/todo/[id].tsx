@@ -29,7 +29,7 @@ import Button from "@mui/material/Button";
 import React from "react";
 import { formatRelative } from "date-fns";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import ToDoAppBar from "components/ToDoAppBar";
 const CreateTodo = (props: any) => {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const router = useRouter();
@@ -122,6 +122,7 @@ const CreateTodo = (props: any) => {
   }, [_loading]);
   return (
     <Box sx={{ flexGrow: 2 }}>
+      <ToDoAppBar></ToDoAppBar>
       <Grid container spacing={0}>
         <Grid item xs={3}></Grid>
         <Grid item xs={6}>
